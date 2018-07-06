@@ -6,11 +6,18 @@ set -e
 # Adapted from https://github.com/crawford/issue-mover
 
 # Instructions:
-# 1) create a new directory to run this script in
-# 2) set the .*_OWNER and .*_REPO variables.
-# 3) set your AUTHORIZATION_TOKEN to access the GitHub API
-# 4) MIGRATE_LABEL - set to the label indicating which issues to move
-# 5) DEST_LABEL - set to a label that corresponds with your DESTINATION_REPO
+# 1) make sure this script is being run in a new directory (running it in the repo is good).
+# 2) set the .*_OWNER and .*_REPO variables (see indicated)
+# 3) set the AUTHORIZATION_TOKEN to access the GitHub API. A Personal Access Token form GitHub will allow a rate limit of 5000
+#    requests per hour, which should be enough for the migration.
+# 4) MIGRATE_LABEL - set to the label indicating which issues to move (see indicated)
+# 5) DEST_LABEL - set to a label that corresponds with your DESTINATION_REPO (see indicated)
+
+# In summary, only issues that have both MIGRATE_LABEL AND DEST_LABEL will be migrated.
+# In my example in migration-test-start, these labels are "component/test" and "kind/otherlabel".
+# To test for certain that this works the way it is intended, the POST and PATCH requests can be
+# commented out (see comments near end of file). This will be a dry run that doesn't affect the
+# SOURCE_REPO - only the DESTINATION_REPO. 
 
 SOURCE_OWNER= # <-- coreos
 DESTINATION_OWNER= # <-- coreos
@@ -21,6 +28,7 @@ AUTHORIZATION_TOKEN= # Comments and issues are published by whichever acccount o
 
 MIGRATE_LABEL="migrate/me" # <-- "needs/migration"
 DEST_LABEL="desination/indicator" # <-- "component/ignition" or "component/coreos-metadata"
+
 ISSUE_NUMBERS_TO_MIGRATE=issue_numbers.txt # Doesn't matter the name of this, it gets created and deleted while script runs.
 
 escape() {
@@ -176,6 +184,7 @@ while read issue_number; do
 		--header "Accept: application/vnd.github.golden-comet-preview+json" \
 		--url $(jq ".issue_url" --raw-output <<< ${stat}))
 
+	# Comment this out for a dry run.
 	curl \
 		--silent \
 		--request POST \
@@ -184,6 +193,7 @@ while read issue_number; do
 		--url $(jq ".comments_url" --raw-output <<< ${raw_issue}) \
 		--data "{\"body\": \"Moved to $(jq ".html_url" --raw-output <<< ${raw_issue_dest})\"}"
 
+	# Comment this out for a dry run.
 	curl \
 		--silent \
 		--request PATCH \
