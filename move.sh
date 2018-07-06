@@ -2,6 +2,9 @@
 
 set -e
 
+# Migrate issues and comments from one repository to another.
+# Adapted from https://github.com/crawford/issue-mover
+
 # Instructions:
 # 1) create a new directory to run this script in
 # 2) set the .*_OWNER and .*_REPO variables.
