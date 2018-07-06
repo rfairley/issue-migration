@@ -10,19 +10,18 @@ set -e
 # 2) set the .*_OWNER and .*_REPO variables.
 # 3) set your AUTHORIZATION_TOKEN to access the GitHub API
 # 4) MIGRATE_LABEL - set to the label indicating which issues to move
-# 5) DEST_LABEL - set to a label that corresponds with your DESTINATION_REPO - to ensure only labels with this set are moved to DESTINATION_REPO
-# 6) ISSUE_NUMBERS_TO_MIGRATE is a file that will be created to store the list of issue numbers to migrate, then read from during migration
+# 5) DEST_LABEL - set to a label that corresponds with your DESTINATION_REPO
 
-SOURCE_OWNER=rfairley
-DESTINATION_OWNER=rfairley
-SOURCE_REPO=migration-test-start
-DESTINATION_REPO=migration-test-finish
+SOURCE_OWNER= # <-- coreos
+DESTINATION_OWNER= # <-- coreos
+SOURCE_REPO=migration-test-start # <-- bugs
+DESTINATION_REPO=migration-test-finish # <-- ignition or coreos-metadata
 
-AUTHORIZATION_TOKEN=
+AUTHORIZATION_TOKEN= # Comments and issues are published by whichever acccount owns this token.
 
-MIGRATE_LABEL="migrate/me"
-DEST_LABEL="desination/indicator"
-ISSUE_NUMBERS_TO_MIGRATE=issue_numbers.txt
+MIGRATE_LABEL="migrate/me" # <-- "needs/migration"
+DEST_LABEL="desination/indicator" # <-- "component/ignition" or "component/coreos-metadata"
+ISSUE_NUMBERS_TO_MIGRATE=issue_numbers.txt # Doesn't matter the name of this, it gets created and deleted while script runs.
 
 escape() {
 	sed \
