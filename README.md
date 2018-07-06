@@ -8,4 +8,4 @@ cd issue-migration
 ./move.sh
 ```
 
-On success, messages will be printed to the console as each issue is processed one by one.
+On success, messages will be printed to the console as each issue is processed one by one. Takes about 2 seconds per issue.
