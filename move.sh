@@ -7,11 +7,11 @@ set -e
 
 # Instructions:
 # 1) make sure this script is being run in a new directory (running it in the repo is good).
-# 2) set the .*_OWNER and .*_REPO variables (see indicated)
+# 2) set the .*_OWNER and .*_REPO variables (see indicated below)
 # 3) set the AUTHORIZATION_TOKEN to access the GitHub API. A Personal Access Token form GitHub will allow a rate limit of 5000
 #    requests per hour, which should be enough for the migration.
-# 4) MIGRATE_LABEL - set to the label indicating which issues to move (see indicated)
-# 5) DEST_LABEL - set to a label that corresponds with your DESTINATION_REPO (see indicated)
+# 4) MIGRATE_LABEL - set to the label indicating which issues to move (see indicated below)
+# 5) DEST_LABEL - set to a label that corresponds with your DESTINATION_REPO (see indicated below)
 
 # In summary, only issues that have both MIGRATE_LABEL AND DEST_LABEL will be migrated.
 # In my example in migration-test-start, these labels are "component/test" and "kind/otherlabel".
