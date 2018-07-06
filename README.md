@@ -1,9 +1,10 @@
 # issue-migration
 
 Please see the script `move.sh` for comments indicating how the environment variables should be set.
-Then, just run the script within this repo directory.
+Then, just run the script from within this repo directory.
 
 ```
+cd issue-migration
 ./move.sh
 ```
 
