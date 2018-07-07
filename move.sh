@@ -15,8 +15,9 @@ set -e
 
 # Migration criteria:
 # Only issues that have both MIGRATE_LABEL AND DEST_LABEL will be migrated.
+# Pull requests will not be migrated.
 # In my example in https://github.com/rfairley/migration-test-start, these labels are
-# "component/test" and "kind/otherlabel" respectively.
+# "component/test" and "kind/otherlabel" respectively (see the now closed issues).
 
 # Testing/Dry run:
 # To test that this works the way it is intended, the POST and PATCH
@@ -69,7 +70,7 @@ for i in $(seq 0 $((${issue_count} - 1))); do
 	has_dest_label="false"
 	for j in $(seq 0 $((${labels_length} - 1))); do
 		# If the issue is a pull request, then don't migrate it.
-		if grep --invert-match null <<< $(jq ".[${i}].pull_request" <<< ${raw_issues}) > /dev/null; then
+		if grep --invert-match null <<< $(jq ".[${j}].pull_request" <<< ${raw_issues}) > /dev/null; then
 			continue
 		fi
 
