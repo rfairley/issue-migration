@@ -37,6 +37,10 @@ DEST_LABEL="kind/otherlabel" 		# <-- "component/ignition" or "component/coreos-m
 
 ISSUE_NUMBERS_TO_MIGRATE=issue_numbers.txt # Doesn't matter the name of this file, it gets created and deleted while script runs.
 
+echo "Note: if errors are given, make sure environment variables are set!"
+echo "Note: if no issues to be moved are found, an error will result."
+
+
 escape() {
 	sed \
 		--expression 's/\\/\\\\/g' \
