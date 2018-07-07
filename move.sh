@@ -85,7 +85,6 @@ for i in $(seq 0 $((${issue_count} - 1))); do
 	done
 
 	if [ $has_migrate_label = "true" ] && [ $has_dest_label = "true" ]; then
-		echo "here"
 		echo "$(jq ".[$i].number" --raw-output <<< ${raw_issues})" >> issue_numbers_raw
 	fi
 done
@@ -127,11 +126,8 @@ while read issue_number; do
 		--url $(jq ".comments_url" --raw-output <<< ${raw_issue})
 	)
 
-	#echo $raw_comments
-
 	comment_count=$(jq "length" --raw-output <<< ${raw_comments})
 
-	echo $comment_count
 	comments="[]"
 	for i in $(seq 0 $((${comment_count} - 1))); do
 		comment_body=$(cat <<-EOF
@@ -205,7 +201,7 @@ while read issue_number; do
 		--request PATCH \
 		--header "Authorization: token ${AUTHORIZATION_TOKEN}" \
 		--header "Accept: application/vnd.github.golden-comet-preview+json" \
-		--url $(jq ".url" --raw-output <<< ${raw_issue_dest}) \
+		--url $(jq ".url" --raw-output <<< ${raw_issue}) \
 		--data '{"state": "closed"}'
 
 done < <(cat $ISSUE_NUMBERS_TO_MIGRATE)
