@@ -22,9 +22,7 @@ set -e
 # Testing/Dry run:
 # To test that this works the way it is intended, the POST and PATCH
 # requests can be commented out (see two comments near end of this file). This will
-# be a dry run that doesn't affect the SOURCE_REPO - only the DESTINATION_REPO (however,
-# this should be done sparingly as references will be created to the old repo and @ tags
-# to users).
+# be a dry run that doesn't affect the SOURCE_REPO - only the DESTINATION_REPO.
 
 SOURCE_OWNER=rfairley 			# <-- coreos
 DESTINATION_OWNER=rfairley		# <-- coreos
