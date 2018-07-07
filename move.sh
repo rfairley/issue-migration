@@ -22,7 +22,9 @@ set -e
 # Testing/Dry run:
 # To test that this works the way it is intended, the POST and PATCH
 # requests can be commented out (see two comments near end of this file). This will
-# be a dry run that doesn't affect the SOURCE_REPO - only the DESTINATION_REPO. 
+# be a dry run that doesn't affect the SOURCE_REPO - only the DESTINATION_REPO (however,
+# this should be done sparingly as references will be created to the old repo and @ tags
+# to users).
 
 SOURCE_OWNER=rfairley 			# <-- coreos
 DESTINATION_OWNER=rfairley		# <-- coreos
@@ -35,7 +37,7 @@ AUTHORIZATION_TOKEN= 			# Comments and issues are published by whichever acccoun
 MIGRATE_LABEL="component/test" 		# <-- "needs/migration"
 DEST_LABEL="kind/otherlabel" 		# <-- "component/ignition" or "component/coreos-metadata"
 
-ISSUE_NUMBERS_TO_MIGRATE=issue_numbers.txt # Doesn't matter the name of this, it gets created and deleted while script runs.
+ISSUE_NUMBERS_TO_MIGRATE=issue_numbers.txt # Doesn't matter the name of this file, it gets created and deleted while script runs.
 
 escape() {
 	sed \
@@ -54,8 +56,6 @@ raw_issues=$(curl \
 	--header "Accept: application/vnd.github.golden-comet-preview+json" \
 	--url "https://api.github.com/repos/${SOURCE_OWNER}/${SOURCE_REPO}/issues")
 
-echo $raw_issues > raw
-
 [ -e $ISSUE_NUMBERS_TO_MIGRATE ] && rm $ISSUE_NUMBERS_TO_MIGRATE
 
 issue_count=$(jq "length" --raw-output <<< ${raw_issues})
@@ -64,21 +64,20 @@ echo "Found ${issue_count} issues total"
 
 # Generate a list of issues to migrate based on matching label.
 for i in $(seq 0 $((${issue_count} - 1))); do
+	# If the issue is a pull request, then don't migrate it.
+	if grep --invert-match null <<< $(jq ".[$i].pull_request" <<< ${raw_issues}) > /dev/null; then
+		continue
+	fi
+	
 	issue_labels=$(jq ".[$i].labels" --raw-output <<< ${raw_issues})
 	labels_length=$(jq "length" --raw-output <<< ${issue_labels})
 	has_migrate_label="false"
 	has_dest_label="false"
 	for j in $(seq 0 $((${labels_length} - 1))); do
-		# If the issue is a pull request, then don't migrate it.
-		if grep --invert-match null <<< $(jq ".[${j}].pull_request" <<< ${raw_issues}) > /dev/null; then
-			continue
-		fi
-
 		# Check for having the migrate indicator label and the destination label.
 		if [ "$(jq ".[$j].name" --raw-output <<< ${issue_labels})" == "${MIGRATE_LABEL}" ]; then
 			has_migrate_label="true"
 		fi
-
 		if [ "$(jq ".[$j].name" --raw-output <<< ${issue_labels})" == "${DEST_LABEL}" ]; then
 			has_dest_label="true"
 		fi
@@ -95,7 +94,7 @@ tac issue_numbers_raw > $ISSUE_NUMBERS_TO_MIGRATE
 echo "Migrating the following issue numbers"
 cat $ISSUE_NUMBERS_TO_MIGRATE
 
-## ---- Below this can be a separate script
+## ---- Migration begins now
 
 echo "Starting migration..."
 
