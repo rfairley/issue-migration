@@ -13,21 +13,26 @@ set -e
 # 4) MIGRATE_LABEL - set to the label indicating which issues to move (see indicated below)
 # 5) DEST_LABEL - set to a label that corresponds with your DESTINATION_REPO (see indicated below)
 
-# In summary, only issues that have both MIGRATE_LABEL AND DEST_LABEL will be migrated.
-# In my example in migration-test-start, these labels are "component/test" and "kind/otherlabel".
-# To test for certain that this works the way it is intended, the POST and PATCH requests can be
-# commented out (see comments near end of file). This will be a dry run that doesn't affect the
-# SOURCE_REPO - only the DESTINATION_REPO. 
+# Migration criteria:
+# Only issues that have both MIGRATE_LABEL AND DEST_LABEL will be migrated.
+# In my example in https://github.com/rfairley/migration-test-start, these labels are
+# "component/test" and "kind/otherlabel" respectively.
 
-SOURCE_OWNER= # <-- coreos
-DESTINATION_OWNER= # <-- coreos
-SOURCE_REPO=migration-test-start # <-- bugs
-DESTINATION_REPO=migration-test-finish # <-- ignition or coreos-metadata
+# Testing/Dry run:
+# To test that this works the way it is intended, the POST and PATCH
+# requests can be commented out (see two comments near end of this file). This will
+# be a dry run that doesn't affect the SOURCE_REPO - only the DESTINATION_REPO. 
 
-AUTHORIZATION_TOKEN= # Comments and issues are published by whichever acccount owns this token.
+SOURCE_OWNER= 				# <-- coreos
+DESTINATION_OWNER= 			# <-- coreos
+SOURCE_REPO=migration-test-start 	# <-- bugs
+DESTINATION_REPO=migration-test-finish 	# <-- ignition or coreos-metadata
 
-MIGRATE_LABEL="migrate/me" # <-- "needs/migration"
-DEST_LABEL="desination/indicator" # <-- "component/ignition" or "component/coreos-metadata"
+AUTHORIZATION_TOKEN= 			# Comments and issues are published by whichever acccount owns this token.
+					# Should be a token associated with coreosbot.
+
+MIGRATE_LABEL="migrate/me" 		# <-- "needs/migration"
+DEST_LABEL="desination/indicator" 	# <-- "component/ignition" or "component/coreos-metadata"
 
 ISSUE_NUMBERS_TO_MIGRATE=issue_numbers.txt # Doesn't matter the name of this, it gets created and deleted while script runs.
 
@@ -199,7 +204,7 @@ while read issue_number; do
 		--request PATCH \
 		--header "Authorization: token ${AUTHORIZATION_TOKEN}" \
 		--header "Accept: application/vnd.github.golden-comet-preview+json" \
-		--url $(jq ".url" --raw-output <<< ${raw_issue}) \
+		--url $(jq ".url" --raw-output <<< ${raw_issue_dest}) \
 		--data '{"state": "closed"}'
 
 done < <(cat $ISSUE_NUMBERS_TO_MIGRATE)
