@@ -24,16 +24,16 @@ set -e
 # requests can be commented out (see two comments near end of this file). This will
 # be a dry run that doesn't affect the SOURCE_REPO - only the DESTINATION_REPO. 
 
-SOURCE_OWNER= 				# <-- coreos
-DESTINATION_OWNER= 			# <-- coreos
+SOURCE_OWNER=rfairley 			# <-- coreos
+DESTINATION_OWNER=rfairley		# <-- coreos
 SOURCE_REPO=migration-test-start 	# <-- bugs
 DESTINATION_REPO=migration-test-finish 	# <-- ignition or coreos-metadata
 
 AUTHORIZATION_TOKEN= 			# Comments and issues are published by whichever acccount owns this token.
 					# Should be a token associated with coreosbot.
 
-MIGRATE_LABEL="migrate/me" 		# <-- "needs/migration"
-DEST_LABEL="desination/indicator" 	# <-- "component/ignition" or "component/coreos-metadata"
+MIGRATE_LABEL="component/test" 		# <-- "needs/migration"
+DEST_LABEL="kind/otherlabel" 		# <-- "component/ignition" or "component/coreos-metadata"
 
 ISSUE_NUMBERS_TO_MIGRATE=issue_numbers.txt # Doesn't matter the name of this, it gets created and deleted while script runs.
 
