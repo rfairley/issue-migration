@@ -194,7 +194,7 @@ while read issue_number; do
 		--header "Authorization: token ${AUTHORIZATION_TOKEN}" \
 		--header "Accept: application/vnd.github.golden-comet-preview+json" \
 		--url $(jq ".comments_url" --raw-output <<< ${raw_issue}) \
-		--data "{\"body\": \"Moved to $(jq ".html_url" --raw-output <<< ${raw_issue_dest})\"}"
+		--data "{\"body\": \"Moved to $(jq ".html_url" --raw-output <<< ${raw_issue_dest}).\"}"
 
 	# Comment this out for a dry run.
 	curl \
