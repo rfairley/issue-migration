@@ -56,7 +56,7 @@ raw_issues=$(curl \
 	--request GET \
 	--header "Authorization: token ${AUTHORIZATION_TOKEN}" \
 	--header "Accept: application/vnd.github.golden-comet-preview+json" \
-	--url "https://api.github.com/repos/${SOURCE_OWNER}/${SOURCE_REPO}/issues")
+	--url "https://api.github.com/repos/${SOURCE_OWNER}/${SOURCE_REPO}/issues?per_page=100&labels=$MIGRATE_LABEL,$DEST_LABEL")
 
 [ -e $ISSUE_NUMBERS_TO_MIGRATE ] && rm $ISSUE_NUMBERS_TO_MIGRATE
 
