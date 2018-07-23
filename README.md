@@ -15,10 +15,11 @@ The script migrates:
 - issue title
 - issue body (reposted)
 - issue comments (reposted)
+- original posting time of issue and comments
 - one assignee only, not multiple
 - labels attached to the migrated issues
 
-See https://github.com/rfairley/migration-test-finish/issues/12 for an example of a migrated issue.
+See https://github.com/rfairley/issue-migration/issues/2  for an example of a migrated issue.
 
 # Post-migration manual fixups
 

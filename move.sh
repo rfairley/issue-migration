@@ -16,7 +16,7 @@ set -e
 # Migration criteria:
 # Only issues that have both MIGRATE_LABEL AND DEST_LABEL will be migrated.
 # Pull requests will not be migrated.
-# In my example in https://github.com/rfairley/migration-test-start, these labels are
+# In the example in https://github.com/rfairley/issue-migration/issues/2, these labels are
 # "component/test" and "kind/otherlabel" respectively (see the now closed issues).
 
 # Testing/Dry run:
@@ -24,16 +24,16 @@ set -e
 # requests can be commented out (see two comments near end of this file). This will
 # be a dry run that doesn't affect the SOURCE_REPO - only the DESTINATION_REPO.
 
-SOURCE_OWNER=rfairley 			# <-- coreos
-DESTINATION_OWNER=rfairley		# <-- coreos
-SOURCE_REPO=migration-test-start 	# <-- bugs
-DESTINATION_REPO=migration-test-finish 	# <-- ignition or coreos-metadata
+SOURCE_OWNER= 		# <-- coreos
+DESTINATION_OWNER=	# <-- coreos
+SOURCE_REPO= 		# <-- bugs
+DESTINATION_REPO= 	# <-- ignition or coreos-metadata
 
-AUTHORIZATION_TOKEN= 			# Comments and issues are published by whichever acccount owns this token.
-					# Should be a token associated with coreosbot.
+AUTHORIZATION_TOKEN= 	# Comments and issues are published by whichever acccount owns this token.
+			#   Should be a token associated with coreosbot.
 
-MIGRATE_LABEL="component/test" 		# <-- "needs/migration"
-DEST_LABEL="kind/otherlabel" 		# <-- "component/ignition" or "component/coreos-metadata"
+MIGRATE_LABEL= 		# <-- "needs/migration"
+DEST_LABEL= 		# <-- "component/ignition" or "component/coreos-metadata"
 
 ISSUE_NUMBERS_TO_MIGRATE=issue_numbers.txt # Doesn't matter the name of this file, it gets created and deleted while script runs.
 
