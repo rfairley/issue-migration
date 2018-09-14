@@ -10,6 +10,8 @@ set -e
 # 2) set the .*_OWNER and .*_REPO variables (see indicated below)
 # 3) set the AUTHORIZATION_TOKEN to access the GitHub API. A Personal Access Token from GitHub will allow a rate limit of 5000
 #    requests per hour, which should be enough for the migration.
+#    The associated account must have write access to the source repo and
+#    admin access to the destination repo.
 # 4) MIGRATE_LABEL - set to the label indicating which issues to move (see indicated below)
 # 5) DEST_LABEL - set to a label that corresponds with your DESTINATION_REPO (see indicated below)
 
